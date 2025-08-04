@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | The Glitch Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* ---
+        Design 9: "De-Coded" Glitch Art
+        - Palette: Near-black, electric blue, glitched magenta/cyan.
+        - Typography: "Roboto Mono" for a clean, technical feel.
+        - Layout: Deconstructed, overlapping UI blocks.
+        - Animation: Text scramble, image glitch on hover, distorted slide-ins.
+        - Texture: Subtle noise and scan lines.
+        --- */
+
+        :root {
+            --bg-color: #0A0A0A;
+            --text-color: #E0E0E0;
+            --accent-color: #00BFFF; /* DeepSkyBlue */
+            --glitch-1: #FF00FF; /* Magenta */
+            --glitch-2: #00FFFF; /* Cyan */
+            --border-color: rgba(0, 191, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Noise & Scanline Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: 
+                linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.05"/></svg>');
+            background-size: 100% 2px, auto;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 7rem 0;
+            position: relative;
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            color: white;
+        }
+
+        /* --- Header --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.5rem 0;
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .main-nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .main-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 5rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            color: #A0A0A0;
+            margin-top: 1.5rem;
+        }
+
+        /* --- Projects Section --- */
+        .section-title {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 3rem;
+        }
+
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .project-item:last-child {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .project-info p {
+            color: #A0A0A0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .project-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .project-image {
+            display: block;
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            filter: grayscale(0.5) contrast(1.1);
+        }
+        
+        /* Glitch Effect */
+        .project-image-wrapper:hover .project-image {
+            animation: glitch-img 0.3s linear infinite;
+        }
+        
+        @keyframes glitch-img {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(3px, -3px); }
+            60% { transform: translate(-3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-grid h2 {
+            font-size: 3rem;
+        }
+        
+        .about-grid p {
+            color: #A0A0A0;
+        }
+        
+        .skills-list {
+            margin-top: 2rem;
+            list-style: none;
+        }
+        
+        .skills-list li {
+            margin-bottom: 0.5rem;
+        }
+        .skills-list li::before {
+            content: '>';
+            margin-right: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* --- Contact Section --- */
+        .contact-content {
+            text-align: center;
+        }
+        
+        .contact-content h2 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-content p {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            color: #A0A0A0;
+        }
+        
+        .contact-email {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 5px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            .project-item, .about-grid { grid-template-columns: 1fr; }
+            .project-item:nth-child(even) .project-image-wrapper { order: -1; }
+            .contact-content h2 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">&lt;Your_Name /&gt;</a>
+            <nav class="main-nav">
+                <a href="#about">about()</a>
+                <a href="#projects">projects()</a>
+                <a href="#contact">contact()</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="container">
+            <div class="hero-content">
+                <h1 id="hero-headline">Code Architect</h1>
+                <p>Building resilient and scalable digital infrastructures. I translate complex requirements into elegant, functional systems.</p>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>[ About Me ]</h2>
+                    <p>I am a systems-oriented developer with a passion for creating robust backend services and secure, efficient infrastructure. My expertise lies in architecting solutions that are not only powerful but also maintainable and scalable.</p>
+                </div>
+                <div class="about-skills">
+                    <h3>// Core Competencies</h3>
+                    <ul class="skills-list">
+                        <li>Backend Development (Go, Rust, Python)</li>
+                        <li>Cloud Infrastructure (AWS, GCP)</li>
+                        <li>Containerization (Docker, Kubernetes)</li>
+                        <li>Database Design & Optimization</li>
+                        <li>System Architecture</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="container">
+            <h2 class="section-title">// Selected Deployments</h2>
+            
+            <!-- Project 1 -->
+            <div class="project-item">
+                <div class="project-info">
+                    <h3>Project Chimera</h3>
+                    <p>A distributed data processing pipeline designed to handle millions of events per second in real-time.</p>
+                    <a href="#" class="project-link">Access Repository &rarr;</a>
+                </div>
+                <div class="project-image-wrapper">
+                    <img class="project-image" src="https://placehold.co/800x600/00BFFF/0A0A0A?text=Chimera" alt="Project Chimera">
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-item">
+                 <div class="project-info">
+                    <h3>Project Sentinel</h3>
+                    <p>An automated security monitoring and alerting system for cloud environments, built with custom scripts and open-source tools.</p>
+                    <a href="#" class="project-link">View Documentation &rarr;</a>
+                </div>
+                <div class="project-image-wrapper">
+                    <img class="project-image" src="https://placehold.co/800x600/FF00FF/0A0A0A?text=Sentinel" alt="Project Sentinel">
+                </div>
+            </div>
+
+        </section>
+
+        <section id="contact" class="container">
+            <div class="contact-content">
+                <h2>[ Initiate Contact ]</h2>
+                <p>Open for collaboration on challenging backend and infrastructure projects.</p>
+                <a href="mailto:your.email@example.com" class="contact-email">your.email@protocol.dev</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Lucide Icons ---
+            lucide.createIcons();
+
+            // --- Text Scramble Effect ---
+            class TextScramble {
+                constructor(el) {
+                    this.el = el;
+                    this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                    this.update = this.update.bind(this);
+                }
+                setText(newText) {
+                    const oldText = this.el.innerText;
+                    const length = Math.max(oldText.length, newText.length);
+                    const promise = new Promise(resolve => this.resolve = resolve);
+                    this.queue = [];
+                    for (let i = 0; i < length; i++) {
+                        const from = oldText[i] || '';
+                        const to = newText[i] || '';
+                        const start = Math.floor(Math.random() * 40);
+                        const end = start + Math.floor(Math.random() * 40);
+                        this.queue.push({ from, to, start, end });
+                    }
+                    cancelAnimationFrame(this.frameRequest);
+                    this.frame = 0;
+                    this.update();
+                    return promise;
+                }
+                update() {
+                    let output = '';
+                    let complete = 0;
+                    for (let i = 0, n = this.queue.length; i < n; i++) {
+                        let { from, to, start, end, char } = this.queue[i];
+                        if (this.frame >= end) {
+                            complete++;
+                            output += to;
+                        } else if (this.frame >= start) {
+                            if (!char || Math.random() < 0.28) {
+                                char = this.randomChar();
+                                this.queue[i].char = char;
+                            }
+                            output += `<span class="scramble-char">${char}</span>`;
+                        } else {
+                            output += from;
+                        }
+                    }
+                    this.el.innerHTML = output;
+                    if (complete === this.queue.length) {
+                        this.resolve();
+                    } else {
+                        this.frameRequest = requestAnimationFrame(this.update);
+                        this.frame++;
+                    }
+                }
+                randomChar() {
+                    return this.chars[Math.floor(Math.random() * this.chars.length)];
+                }
+            }
+
+            const headline = document.getElementById('hero-headline');
+            const fx = new TextScramble(headline);
+            
+            const phrases = ['Code Architect', 'Systems Engineer', 'Backend Developer', 'Problem Solver'];
+            let counter = 0;
+            const next = () => {
+                fx.setText(phrases[counter]).then(() => {
+                    setTimeout(next, 3000);
+                });
+                counter = (counter + 1) % phrases.length;
+            };
+            next();
+        });
+    </script>
+</body>
+</html>
